@@ -6,6 +6,7 @@ export interface Medication {
   active: boolean;
   color?: string;
   stock?: number;
+  instructions?: string;
   startDate: Date;
   endDate?: Date;
   notes?: string;
