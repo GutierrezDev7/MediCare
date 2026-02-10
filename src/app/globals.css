@@ -5,83 +5,104 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-size: 16px;
-  --background: oklch(0.98 0.01 180); /* Soft Mint/White */
-  --foreground: oklch(0.2 0.02 180); /* Dark Slate */
-  --card: oklch(1 0 0); /* White */
-  --card-foreground: oklch(0.2 0.02 180);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 180);
+  /* Base Typography & Layout */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius: 1rem; /* Arredondamento moderno e amigável */
   
-  /* Health & Life Theme - Teal/Emerald based */
-  --primary: oklch(0.6 0.15 180); /* Teal-600 equivalent - Healing/Calm */
+  /* Modern Palette - Medical Tech (Vibrant Teal & Indigo) */
+  --background: oklch(0.98 0.01 240); /* Cool White */
+  --foreground: oklch(0.2 0.03 240); /* Deep Navy */
+  
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.03 240);
+  
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.03 240);
+  
+  /* Primary: Vibrant Indigo-Teal Gradient feel base */
+  --primary: oklch(0.55 0.2 260); /* Vivid Indigo/Purple */
   --primary-foreground: oklch(0.98 0 0);
   
-  --secondary: oklch(0.95 0.03 160); /* Light Greenish Teal */
-  --secondary-foreground: oklch(0.3 0.05 160);
+  --secondary: oklch(0.96 0.02 240); /* Soft Lavender/Gray */
+  --secondary-foreground: oklch(0.4 0.1 260);
   
-  --muted: oklch(0.96 0.01 180);
-  --muted-foreground: oklch(0.5 0.02 180);
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.5 0.05 240);
   
-  --accent: oklch(0.93 0.04 180);
-  --accent-foreground: oklch(0.3 0.05 180);
+  --accent: oklch(0.94 0.05 260);
+  --accent-foreground: oklch(0.4 0.15 260);
   
-  --destructive: oklch(0.6 0.18 25); /* Red for alerts */
+  --destructive: oklch(0.6 0.2 20);
   --destructive-foreground: oklch(0.98 0 0);
   
-  --border: oklch(0.9 0.02 180);
-  --input: oklch(0.9 0.02 180);
-  --ring: oklch(0.6 0.15 180);
+  --border: oklch(0.92 0.02 240);
+  --input: oklch(0.92 0.02 240);
+  --ring: oklch(0.55 0.2 260); /* Matching Primary */
   
-  --radius: 0.75rem; /* More rounded/friendly */
-  
-  /* Sidebar - Dark Teal/Slate for professional look */
-  --sidebar: oklch(0.25 0.04 180); 
-  --sidebar-foreground: oklch(0.95 0.01 180);
-  --sidebar-primary: oklch(0.6 0.15 180);
+  /* Sidebar - Glassmorphism Base */
+  --sidebar: oklch(0.98 0.01 240 / 0.8);
+  --sidebar-foreground: oklch(0.3 0.05 240);
+  --sidebar-primary: oklch(0.55 0.2 260);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.3 0.04 180);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.3 0.04 180);
-  --sidebar-ring: oklch(0.6 0.15 180);
+  --sidebar-accent: oklch(0.94 0.05 260);
+  --sidebar-accent-foreground: oklch(0.4 0.15 260);
+  --sidebar-border: oklch(0.92 0.02 240 / 0.5);
+  --sidebar-ring: oklch(0.55 0.2 260);
 
-  /* Charts */
-  --chart-1: oklch(0.6 0.15 180); /* Teal */
-  --chart-2: oklch(0.65 0.18 150); /* Emerald */
-  --chart-3: oklch(0.55 0.12 200); /* Blue */
-  --chart-4: oklch(0.7 0.15 90); /* Yellow/Green */
-  --chart-5: oklch(0.6 0.15 30); /* Orange */
+  /* Glassmorphism Utilities */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  
+  /* Charts - Vibrant & Distinct */
+  --chart-1: oklch(0.55 0.2 260); /* Indigo */
+  --chart-2: oklch(0.6 0.18 180); /* Teal */
+  --chart-3: oklch(0.65 0.2 320); /* Pink/Magenta */
+  --chart-4: oklch(0.7 0.18 80); /* Amber */
+  --chart-5: oklch(0.6 0.18 25); /* OrangeRed */
 }
 
 .dark {
-  --background: oklch(0.15 0.02 180);
-  --foreground: oklch(0.98 0.01 180);
-  --card: oklch(0.2 0.03 180);
-  --card-foreground: oklch(0.98 0.01 180);
-  --popover: oklch(0.2 0.03 180);
-  --popover-foreground: oklch(0.98 0.01 180);
-  --primary: oklch(0.6 0.15 180);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.3 0.04 180);
-  --secondary-foreground: oklch(0.98 0.01 180);
-  --muted: oklch(0.25 0.02 180);
-  --muted-foreground: oklch(0.7 0.02 180);
-  --accent: oklch(0.3 0.04 180);
-  --accent-foreground: oklch(0.98 0.01 180);
-  --destructive: oklch(0.5 0.18 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.3 0.02 180);
-  --input: oklch(0.3 0.02 180);
-  --ring: oklch(0.6 0.15 180);
+  --background: oklch(0.1 0.05 260); /* Deep Space Navy */
+  --foreground: oklch(0.98 0.01 240);
   
-  --sidebar: oklch(0.12 0.03 180);
-  --sidebar-foreground: oklch(0.95 0.01 180);
-  --sidebar-primary: oklch(0.6 0.15 180);
+  --card: oklch(0.15 0.05 260 / 0.6); /* Translucent Dark Card */
+  --card-foreground: oklch(0.98 0.01 240);
+  
+  --popover: oklch(0.15 0.05 260);
+  --popover-foreground: oklch(0.98 0.01 240);
+  
+  --primary: oklch(0.65 0.2 260); /* Brighter Indigo for Dark Mode */
+  --primary-foreground: oklch(0.98 0 0);
+  
+  --secondary: oklch(0.2 0.05 260);
+  --secondary-foreground: oklch(0.98 0.01 240);
+  
+  --muted: oklch(0.2 0.03 260);
+  --muted-foreground: oklch(0.7 0.05 260);
+  
+  --accent: oklch(0.25 0.08 260);
+  --accent-foreground: oklch(0.98 0.01 240);
+  
+  --destructive: oklch(0.5 0.2 20);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  --border: oklch(0.25 0.05 260);
+  --input: oklch(0.25 0.05 260);
+  --ring: oklch(0.65 0.2 260);
+  
+  --sidebar: oklch(0.1 0.05 260 / 0.8);
+  --sidebar-foreground: oklch(0.9 0.02 240);
+  --sidebar-primary: oklch(0.65 0.2 260);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.2 0.03 180);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.2 0.03 180);
-  --sidebar-ring: oklch(0.6 0.15 180);
+  --sidebar-accent: oklch(0.2 0.08 260);
+  --sidebar-accent-foreground: oklch(0.98 0.01 240);
+  --sidebar-border: oklch(0.25 0.05 260 / 0.5);
+  --sidebar-ring: oklch(0.65 0.2 260);
+
+  --glass-bg: rgba(20, 20, 35, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 @theme inline {
@@ -123,16 +144,33 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Custom Utilities for Glassmorphism & Animations */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--chart-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
-    @apply bg-background text-foreground;
-  }
-
-  html {
-    font-size: 16px;
+    @apply bg-background text-foreground antialiased;
+    /* Adicionar um background sutil com gradiente/pattern */
+    background-image: 
+      radial-gradient(at 0% 0%, oklch(var(--primary) / 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, oklch(var(--chart-2) / 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, oklch(var(--chart-3) / 0.05) 0px, transparent 50%);
+    background-attachment: fixed;
   }
 }
