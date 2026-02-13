@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { Calendar, Clock, CheckCircle2, XCircle, MinusCircle, Pill } from 'lucide-react';
+import { Calendar, Clock, CheckCircle2, XCircle, MinusCircle, Pill, Filter, X } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Medication, MedicationLog } from '@/types/medication';
 import { format, isToday, isYesterday, startOfDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -45,6 +47,7 @@ const statusConfig = {
 
 export function HistoryView({ medications, logs }: HistoryViewProps) {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
   // Agrupa logs por data
   const groupedLogs = logs.reduce((acc, log) => {
@@ -58,6 +61,12 @@ export function HistoryView({ medications, logs }: HistoryViewProps) {
 
   // Filtra por medicamento se selecionado e remove logs anteriores à data de início
   const filteredGroupedLogs = Object.entries(groupedLogs).reduce((acc, [date, dateLogs]) => {
+    // Filtro de data
+    if (selectedDate) {
+      const logDate = date.split('T')[0];
+      if (logDate !== selectedDate) return acc;
+    }
+
     // Basic filter by medication ID
     let filtered = selectedMedication
       ? dateLogs.filter(log => log.medicationId === selectedMedication)
@@ -91,33 +100,63 @@ export function HistoryView({ medications, logs }: HistoryViewProps) {
         <p className="text-muted-foreground mt-1">Acompanhe o registro de todas as suas doses</p>
       </div>
 
-      {/* Filtro por medicamento */}
+      {/* Filtros */}
       <Card>
         <CardHeader>
-          <CardTitle>Filtrar por Medicamento</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Filter className="h-5 w-5" />
+            Filtros
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant={selectedMedication === null ? 'default' : 'outline'}
-              onClick={() => setSelectedMedication(null)}
-            >
-              Todos
-            </Button>
-            {medications.map(med => (
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label>Filtrar por Data</Label>
+              {selectedDate && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setSelectedDate('')}
+                  className="h-8 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4 mr-1" />
+                  Limpar data
+                </Button>
+              )}
+            </div>
+            <Input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="w-full sm:w-auto min-h-[44px]"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Filtrar por Medicamento</Label>
+            <div className="flex flex-wrap gap-2">
               <Button
-                key={med.id}
-                variant={selectedMedication === med.id ? 'default' : 'outline'}
-                onClick={() => setSelectedMedication(med.id)}
-                className="gap-2"
+                variant={selectedMedication === null ? 'default' : 'outline'}
+                onClick={() => setSelectedMedication(null)}
+                className="min-h-[44px]"
               >
-                <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: med.color }}
-                />
-                {med.name}
+                Todos
               </Button>
-            ))}
+              {medications.map(med => (
+                <Button
+                  key={med.id}
+                  variant={selectedMedication === med.id ? 'default' : 'outline'}
+                  onClick={() => setSelectedMedication(med.id)}
+                  className="gap-2 min-h-[44px]"
+                >
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: med.color }}
+                  />
+                  {med.name}
+                </Button>
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { TrendingUp, Download } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
@@ -104,26 +106,139 @@ export function ReportsView({ medications, logs }: ReportsViewProps) {
   const totalTaken = logs.filter(log => log.status === 'taken').length;
   const overallAdherence = totalLogs > 0 ? Math.round((totalTaken / totalLogs) * 100) : 0;
 
-  const exportReport = () => {
-    // Simula exportação de relatório
-    const reportData = {
-      period,
-      generatedAt: new Date().toISOString(),
-      overallAdherence,
-      dailyData: dailyAdherenceData,
-      medicationData,
-      statusData,
-    };
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+
+    // Título
+    doc.setFontSize(20);
+    doc.text('Relatório de Medicamentos Inteligente', 14, 22);
+
+    // Informações Gerais
+    doc.setFontSize(12);
+    doc.text(`Data de Geração: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 14, 32);
+    doc.text(`Período: ${period === 'week' ? 'Últimos 7 dias' : 'Últimos 30 dias'}`, 14, 38);
+    doc.text(`Aderência Geral: ${overallAdherence}%`, 14, 44);
+
+    // Tabela de Medicamentos
+    doc.setFontSize(16);
+    doc.text('Aderência por Medicamento', 14, 58);
     
-    const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `relatorio-medicamentos-${format(new Date(), 'yyyy-MM-dd')}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const medTableData = medicationData.map(med => [
+      med.name,
+      `${med.adherence}%`,
+      `${med.taken}/${med.total}`
+    ]);
+
+    autoTable(doc, {
+      startY: 62,
+      head: [['Medicamento', 'Aderência', 'Doses (Tomadas/Total)']],
+      body: medTableData,
+    });
+
+    // Tabela Diária
+    const finalY = (doc as any).lastAutoTable.finalY || 62;
+    doc.text('Detalhamento Diário', 14, finalY + 14);
+
+    const dailyTableData = dailyAdherenceData.map(day => [
+      day.date,
+      `${day.adherence}%`,
+      day.taken.toString(),
+      day.missed.toString(),
+      day.skipped.toString()
+    ]);
+
+    autoTable(doc, {
+      startY: finalY + 18,
+      head: [['Data', 'Aderência', 'Tomadas', 'Perdidas', 'Ignoradas']],
+      body: dailyTableData,
+    });
+
+    doc.save(`relatorio-medicamentos-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
+  };
+
+  const exportReport = () => {
+    const doc = new jsPDF();
+    const today = format(new Date(), 'dd/MM/yyyy');
+    
+    // Configurações iniciais
+    doc.setFontSize(20);
+    doc.text('Relatório de Aderência - MediCare', 14, 22);
+    
+    doc.setFontSize(10);
+    doc.text(`Gerado em: ${today}`, 14, 30);
+    doc.text(`Período: ${period === 'week' ? 'Últimos 7 dias' : 'Últimos 30 dias'}`, 14, 35);
+
+    // Resumo Geral
+    doc.setFontSize(14);
+    doc.text('Resumo Geral', 14, 45);
+    
+    const summaryData = [
+      ['Taxa de Aderência Global', `${overallAdherence}%`],
+      ['Total de Doses Registradas', totalLogs.toString()],
+      ['Doses Tomadas', totalTaken.toString()],
+      ['Doses Perdidas', logs.filter(log => log.status === 'missed').length.toString()],
+      ['Doses Ignoradas', logs.filter(log => log.status === 'skipped').length.toString()],
+    ];
+
+    autoTable(doc, {
+      startY: 50,
+      head: [['Métrica', 'Valor']],
+      body: summaryData,
+      theme: 'striped',
+      headStyles: { fillColor: [59, 130, 246] },
+    });
+
+    // Detalhes por Medicamento
+    const lastY = (doc as any).lastAutoTable.finalY || 100;
+    doc.setFontSize(14);
+    doc.text('Detalhamento por Medicamento', 14, lastY + 15);
+
+    const medRows = medicationData.map(med => [
+      med.name,
+      `${med.adherence}%`,
+      med.taken.toString(),
+      med.total.toString(),
+      med.total - med.taken // Perdidas/Ignoradas
+    ]);
+
+    autoTable(doc, {
+      startY: lastY + 20,
+      head: [['Medicamento', 'Aderência', 'Tomadas', 'Total', 'Pend/Perd']],
+      body: medRows,
+      theme: 'grid',
+      headStyles: { fillColor: [16, 185, 129] },
+    });
+
+    // Histórico Diário (Opcional, se houver espaço ou nova página)
+    const lastY2 = (doc as any).lastAutoTable.finalY || 150;
+    doc.setFontSize(14);
+    doc.text('Histórico Diário', 14, lastY2 + 15);
+
+    const dailyRows = dailyAdherenceData.map(day => [
+      day.date,
+      `${day.adherence}%`,
+      day.taken.toString(),
+      day.missed.toString(),
+      day.skipped.toString()
+    ]);
+
+    autoTable(doc, {
+      startY: lastY2 + 20,
+      head: [['Data', 'Aderência', 'Tomadas', 'Perdidas', 'Ignoradas']],
+      body: dailyRows,
+      theme: 'striped',
+      headStyles: { fillColor: [245, 158, 11] },
+    });
+
+    // Rodapé
+    const pageCount = doc.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.text(`Página ${i} de ${pageCount} - MediCare Relatórios`, 14, doc.internal.pageSize.height - 10);
+    }
+
+    doc.save(`relatorio-medicare-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
   };
 
   return (
@@ -135,10 +250,13 @@ export function ReportsView({ medications, logs }: ReportsViewProps) {
             Acompanhe sua aderência ao tratamento
           </p>
         </div>
-        <Button onClick={exportReport} className="gap-2">
-          <Download className="h-4 w-4" />
-          Exportar Relatório
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={exportToPDF} className="gap-2">
+            <Download className="h-4 w-4" />
+            Exportar PDF
+          </Button>
+          
+        </div>
       </div>
 
       {/* Card de resumo geral */}

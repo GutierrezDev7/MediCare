@@ -109,11 +109,11 @@ export function AddMedicationDialog({ onAdd, onUpdate, editingMedication, onClos
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
+            <div className="grid grid-cols-1 md:grid-cols-4 items-start md:items-center gap-2 md:gap-4">
+              <Label htmlFor="name" className="md:text-right">
                 Nome
               </Label>
-              <div className="col-span-3 space-y-1">
+              <div className="md:col-span-3 space-y-1">
                 <Input
                   id="name"
                   value={name}
@@ -123,11 +123,11 @@ export function AddMedicationDialog({ onAdd, onUpdate, editingMedication, onClos
                 {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
               </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="dosage" className="text-right">
+            <div className="grid grid-cols-1 md:grid-cols-4 items-start md:items-center gap-2 md:gap-4">
+              <Label htmlFor="dosage" className="md:text-right">
                 Dosagem
               </Label>
-              <div className="col-span-3 space-y-1">
+              <div className="md:col-span-3 space-y-1">
                 <Input
                   id="dosage"
                   value={dosage}
@@ -138,44 +138,45 @@ export function AddMedicationDialog({ onAdd, onUpdate, editingMedication, onClos
                 {errors.dosage && <p className="text-xs text-red-500">{errors.dosage}</p>}
               </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="frequency" className="text-right">
+            <div className="grid grid-cols-1 md:grid-cols-4 items-start md:items-center gap-2 md:gap-4">
+              <Label htmlFor="frequency" className="md:text-right">
                 Frequência
               </Label>
-              <div className="col-span-3 space-y-1">
+              <div className="md:col-span-3 space-y-1">
                 <Select value={frequency} onValueChange={setFrequency}>
-                  <SelectTrigger className={errors.frequency ? 'border-red-500' : ''}>
+                  <SelectTrigger className={`min-h-[44px] ${errors.frequency ? 'border-red-500' : ''}`}>
                     <SelectValue placeholder="Selecione..." />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="4h">A cada 4 horas</SelectItem>
-                    <SelectItem value="6h">A cada 6 horas</SelectItem>
-                    <SelectItem value="8h">A cada 8 horas</SelectItem>
-                    <SelectItem value="12h">A cada 12 horas</SelectItem>
-                    <SelectItem value="24h">Uma vez ao dia</SelectItem>
+                    <SelectItem value="4h" className="min-h-[44px]">A cada 4 horas</SelectItem>
+                    <SelectItem value="6h" className="min-h-[44px]">A cada 6 horas</SelectItem>
+                    <SelectItem value="8h" className="min-h-[44px]">A cada 8 horas</SelectItem>
+                    <SelectItem value="12h" className="min-h-[44px]">A cada 12 horas</SelectItem>
+                    <SelectItem value="24h" className="min-h-[44px]">Uma vez ao dia</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.frequency && <p className="text-xs text-red-500">{errors.frequency}</p>}
               </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="startTime" className="text-right">
+            <div className="grid grid-cols-1 md:grid-cols-4 items-start md:items-center gap-2 md:gap-4">
+              <Label htmlFor="startTime" className="md:text-right">
                 Horário Início
               </Label>
-              <div className="col-span-3 space-y-1">
+              <div className="md:col-span-3 space-y-1">
                 <Input
                   id="startTime"
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
+                  className="min-h-[44px]"
                 />
               </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="stock" className="text-right">
+            <div className="grid grid-cols-1 md:grid-cols-4 items-start md:items-center gap-2 md:gap-4">
+              <Label htmlFor="stock" className="md:text-right">
                 Estoque
               </Label>
-              <div className="col-span-3 space-y-1">
+              <div className="md:col-span-3 space-y-1">
                 <Input
                   id="stock"
                   type="number"
@@ -187,18 +188,19 @@ export function AddMedicationDialog({ onAdd, onUpdate, editingMedication, onClos
                 {errors.stock && <p className="text-xs text-red-500">{errors.stock}</p>}
               </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="color" className="text-right">
+            <div className="grid grid-cols-1 md:grid-cols-4 items-start md:items-center gap-2 md:gap-4">
+              <Label htmlFor="color" className="md:text-right">
                 Cor
               </Label>
-              <div className="col-span-3 flex gap-2">
+              <div className="md:col-span-3 flex flex-wrap gap-3">
                 {['#ef4444', '#3b82f6', '#eab308', '#22c55e', '#a855f7', '#ec4899'].map((c) => (
                   <button
                     key={c}
                     type="button"
-                    className={`w-6 h-6 rounded-full border-2 ${color === c ? 'border-black' : 'border-transparent'}`}
+                    className={`w-10 h-10 rounded-full border-2 transition-transform active:scale-95 ${color === c ? 'border-black ring-2 ring-offset-2 ring-black/20' : 'border-transparent'}`}
                     style={{ backgroundColor: c }}
                     onClick={() => setColor(c)}
+                    aria-label={`Selecionar cor ${c}`}
                   />
                 ))}
               </div>

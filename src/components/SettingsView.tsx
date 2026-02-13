@@ -31,27 +31,29 @@ export function SettingsView() {
       </div>
 
       <Tabs defaultValue="profile" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="profile">Perfil</TabsTrigger>
-          <TabsTrigger value="notifications">Notificações</TabsTrigger>
-          <TabsTrigger value="security">Segurança</TabsTrigger>
-          <TabsTrigger value="accessibility">Acessibilidade</TabsTrigger>
-          <TabsTrigger value="caregivers">Cuidadores</TabsTrigger>
-        </TabsList>
+        <div className="w-full overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 scrollbar-hide">
+          <TabsList className="w-full justify-start sm:grid sm:grid-cols-5 h-auto p-1 gap-1">
+            <TabsTrigger value="profile" className="flex-1 min-w-[100px] sm:min-w-0">Perfil</TabsTrigger>
+            <TabsTrigger value="notifications" className="flex-1 min-w-[100px] sm:min-w-0">Notificações</TabsTrigger>
+            <TabsTrigger value="security" className="flex-1 min-w-[100px] sm:min-w-0">Segurança</TabsTrigger>
+            <TabsTrigger value="accessibility" className="flex-1 min-w-[110px] sm:min-w-0">Acessibilidade</TabsTrigger>
+            <TabsTrigger value="caregivers" className="flex-1 min-w-[100px] sm:min-w-0">Cuidadores</TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* Perfil */}
         <TabsContent value="profile" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5" />
+            <CardHeader className="px-4 pt-4 sm:px-6 sm:pt-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <User className="h-5 w-5 shrink-0" />
                 Informações Pessoais
               </CardTitle>
               <CardDescription>
                 Atualize suas informações de perfil
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 px-4 pb-4 sm:px-6 sm:pb-6">
               <div className="space-y-2">
                 <Label htmlFor="name">Nome Completo</Label>
                 <Input id="name" defaultValue="Maria Silva" />
@@ -81,7 +83,7 @@ export function SettingsView() {
                 </div>
                 <Switch checked={darkMode} onCheckedChange={setDarkMode} />
               </div>
-              <Button className="w-full">Salvar Alterações</Button>
+              <Button className="w-full min-h-[44px]">Salvar Alterações</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -89,16 +91,16 @@ export function SettingsView() {
         {/* Notificações */}
         <TabsContent value="notifications" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
+            <CardHeader className="px-4 pt-4 sm:px-6 sm:pt-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Bell className="h-5 w-5 shrink-0" />
                 Preferências de Notificações
               </CardTitle>
               <CardDescription>
                 Configure como e quando receber lembretes
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 px-4 pb-4 sm:px-6 sm:pb-6">
               <div className="flex items-center justify-between">
                 <div>
                   <Label>Notificações Push</Label>
@@ -198,31 +200,31 @@ export function SettingsView() {
         {/* Segurança */}
         <TabsContent value="security" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
+            <CardHeader className="px-4 pt-4 sm:px-6 sm:pt-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Shield className="h-5 w-5 shrink-0" />
                 Segurança e Privacidade
               </CardTitle>
               <CardDescription>
                 Proteja sua conta e seus dados
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 px-4 pb-4 sm:px-6 sm:pb-6">
               <div className="space-y-4">
                 <h3 className="font-semibold">Alterar Senha</h3>
                 <div className="space-y-2">
                   <Label htmlFor="current-password">Senha Atual</Label>
-                  <Input id="current-password" type="password" />
+                  <Input id="current-password" type="password" className="min-h-[44px]" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="new-password">Nova Senha</Label>
-                  <Input id="new-password" type="password" />
+                  <Input id="new-password" type="password" className="min-h-[44px]" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="confirm-password">Confirmar Nova Senha</Label>
-                  <Input id="confirm-password" type="password" />
+                  <Input id="confirm-password" type="password" className="min-h-[44px]" />
                 </div>
-                <Button>Alterar Senha</Button>
+                <Button className="min-h-[44px]">Alterar Senha</Button>
               </div>
 
               <Separator />
@@ -268,10 +270,10 @@ export function SettingsView() {
               <div className="space-y-4">
                 <h3 className="font-semibold text-red-600">Zona de Perigo</h3>
                 <div className="space-y-2">
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full min-h-[44px]">
                     Exportar Todos os Dados
                   </Button>
-                  <Button variant="destructive" className="w-full">
+                  <Button variant="destructive" className="w-full min-h-[44px]">
                     Excluir Conta
                   </Button>
                 </div>
@@ -283,16 +285,16 @@ export function SettingsView() {
         {/* Acessibilidade */}
         <TabsContent value="accessibility" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Accessibility className="h-5 w-5" />
+            <CardHeader className="px-4 pt-4 sm:px-6 sm:pt-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Accessibility className="h-5 w-5 shrink-0" />
                 Opções de Acessibilidade
               </CardTitle>
               <CardDescription>
                 Configure recursos para melhor experiência
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 px-4 pb-4 sm:px-6 sm:pb-6">
               <div className="space-y-4">
                 <Label>Tamanho da Fonte</Label>
                 <div className="flex items-center gap-4">
@@ -373,89 +375,89 @@ export function SettingsView() {
         {/* Cuidadores */}
         <TabsContent value="caregivers" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
+            <CardHeader className="px-4 pt-4 sm:px-6 sm:pt-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Users className="h-5 w-5 shrink-0" />
                 Gerenciar Cuidadores
               </CardTitle>
               <CardDescription>
                 Permita que familiares e cuidadores acompanhem suas medicações
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label>Monitoramento Remoto</Label>
+            <CardContent className="space-y-6 px-4 pb-4 sm:px-6 sm:pb-6">
+              <div className="flex items-center justify-between min-h-[44px]">
+                <div className="pr-4">
+                  <Label className="text-base">Monitoramento Remoto</Label>
                   <p className="text-sm text-muted-foreground">
                     Permitir que cuidadores vejam seu histórico
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch defaultChecked className="scale-125 sm:scale-100" />
               </div>
 
               <Separator />
 
               <div>
-                <h3 className="font-semibold mb-4">Cuidadores Autorizados</h3>
+                <h3 className="font-semibold mb-4 text-base">Cuidadores Autorizados</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 rounded-lg border">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border gap-3">
                     <div>
-                      <p className="font-medium">João Silva</p>
+                      <p className="font-medium text-base">João Silva</p>
                       <p className="text-sm text-muted-foreground">joao.silva@email.com</p>
                       <p className="text-xs text-muted-foreground mt-1">Filho • Adicionado em 15/01/2026</p>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[40px]">
                       Remover
                     </Button>
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded-lg border">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border gap-3">
                     <div>
-                      <p className="font-medium">Ana Costa</p>
+                      <p className="font-medium text-base">Ana Costa</p>
                       <p className="text-sm text-muted-foreground">ana.costa@email.com</p>
                       <p className="text-xs text-muted-foreground mt-1">Cuidadora • Adicionada em 20/01/2026</p>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[40px]">
                       Remover
                     </Button>
                   </div>
                 </div>
               </div>
 
-              <Button className="w-full">+ Adicionar Cuidador</Button>
+              <Button className="w-full min-h-[44px]">+ Adicionar Cuidador</Button>
 
               <Separator />
 
               <div className="space-y-4">
-                <h3 className="font-semibold">Configurações de Notificação para Cuidadores</h3>
+                <h3 className="font-semibold text-base">Configurações de Notificação para Cuidadores</h3>
                 
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Alertar sobre Doses Perdidas</Label>
+                <div className="flex items-center justify-between min-h-[44px]">
+                  <div className="pr-4">
+                    <Label className="text-base">Alertar sobre Doses Perdidas</Label>
                     <p className="text-sm text-muted-foreground">
                       Notificar cuidadores quando uma dose for perdida
                     </p>
                   </div>
-                  <Switch defaultChecked />
+                  <Switch defaultChecked className="scale-125 sm:scale-100" />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Relatórios Semanais</Label>
+                <div className="flex items-center justify-between min-h-[44px]">
+                  <div className="pr-4">
+                    <Label className="text-base">Relatórios Semanais</Label>
                     <p className="text-sm text-muted-foreground">
                       Enviar resumo semanal para cuidadores
                     </p>
                   </div>
-                  <Switch defaultChecked />
+                  <Switch defaultChecked className="scale-125 sm:scale-100" />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Alertas de Estoque Baixo</Label>
+                <div className="flex items-center justify-between min-h-[44px]">
+                  <div className="pr-4">
+                    <Label className="text-base">Alertas de Estoque Baixo</Label>
                     <p className="text-sm text-muted-foreground">
                       Notificar quando medicamentos precisarem ser repostos
                     </p>
                   </div>
-                  <Switch defaultChecked />
+                  <Switch defaultChecked className="scale-125 sm:scale-100" />
                 </div>
               </div>
             </CardContent>
