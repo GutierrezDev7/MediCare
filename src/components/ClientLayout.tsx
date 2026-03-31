@@ -1,5 +1,6 @@
 'use client';
 
+import { AuthProvider } from '@/contexts/AuthContext';
 import { MedicationProvider } from '@/contexts/MedicationContext';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Toaster } from 'sonner';
@@ -10,11 +11,13 @@ interface ClientLayoutProps {
 
 export function ClientLayout({ children }: ClientLayoutProps) {
   return (
-    <MedicationProvider>
-      <AppLayout>
-        {children}
-      </AppLayout>
-      <Toaster />
-    </MedicationProvider>
+    <AuthProvider>
+      <MedicationProvider>
+        <AppLayout>
+          {children}
+        </AppLayout>
+        <Toaster />
+      </MedicationProvider>
+    </AuthProvider>
   );
 }

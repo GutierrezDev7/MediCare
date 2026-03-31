@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MediCare - Gestão Inteligente de Medicamentos
 
-## Getting Started
+Sistema web para gerenciamento de medicamentos com lembretes inteligentes, acompanhamento de aderência e monitoramento por cuidadores.
 
-First, run the development server:
+## Stack Tecnológica
+
+- **Frontend:** Next.js 16, React 19, Tailwind CSS 4, Radix UI, Framer Motion
+- **Backend:** Next.js API Routes, Prisma ORM, PostgreSQL
+- **Autenticação:** JWT (jose) + bcrypt, cookies httpOnly
+- **Validação:** Zod
+- **Testes:** Jest + ts-jest
+
+## Pré-requisitos
+
+- Node.js 22+
+- PostgreSQL 18 rodando localmente na porta 5432
+
+## Setup
+
+### 1. Instalar dependências
+
+```bash
+npm install
+```
+
+### 2. Configurar banco de dados
+
+Crie o banco PostgreSQL:
+
+```sql
+CREATE DATABASE medicare_dev;
+CREATE DATABASE medicare_test;
+```
+
+### 3. Configurar variáveis de ambiente
+
+Crie um arquivo `.env` na raiz:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/medicare_dev"
+JWT_SECRET="sua-chave-secreta-aqui"
+```
+
+### 4. Rodar migrações
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. Popular banco com dados de exemplo
+
+```bash
+npm run db:seed
+```
+
+Usuários criados:
+- `maria@medicare.com` (Paciente) - senha: `123456`
+- `joao@medicare.com` (Cuidador) - senha: `123456`
+- `ana@medicare.com` (Paciente) - senha: `123456`
+
+### 6. Iniciar o servidor
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts Disponíveis
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Comando | Descrição |
+|---------|-----------|
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção |
+| `npm test` | Rodar testes |
+| `npm run test:watch` | Testes em modo watch |
+| `npm run db:migrate` | Rodar migrações |
+| `npm run db:seed` | Popular banco com dados de exemplo |
+| `npm run db:studio` | Abrir Prisma Studio |
+| `npm run db:reset` | Resetar banco e re-rodar migrações |
 
-## Learn More
+## API Endpoints
 
-To learn more about Next.js, take a look at the following resources:
+### Autenticação
+- `POST /api/auth/register` - Cadastro
+- `POST /api/auth/login` - Login
+- `GET /api/auth/me` - Dados do usuário autenticado
+- `POST /api/auth/logout` - Logout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Medicamentos
+- `GET /api/medications` - Listar medicamentos
+- `POST /api/medications` - Criar medicamento
+- `PUT /api/medications/:id` - Atualizar medicamento
+- `PATCH /api/medications/:id/toggle` - Ativar/desativar
+- `DELETE /api/medications/:id` - Excluir medicamento
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Lembretes/Logs
+- `GET /api/logs` - Listar lembretes (filtros: medicamentoId, status, dataInicio, dataFim)
+- `PATCH /api/logs/:id/take` - Marcar dose como tomada
+- `PATCH /api/logs/:id/skip` - Pular dose
 
-## Deploy on Vercel
+### Cuidadores
+- `GET /api/caregivers` - Listar cuidadores do paciente
+- `POST /api/caregivers` - Vincular cuidador
+- `DELETE /api/caregivers/:id` - Remover vínculo
+- `GET /api/caregivers/patients` - Listar pacientes (visão do cuidador)
+- `GET /api/caregivers/patients/:id/medications` - Ver medicamentos do paciente
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Relatórios
+- `GET /api/reports/adherence` - Relatório de aderência
+- `GET /api/reports/summary` - Resumo para dashboard
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Testes
+
+```bash
+npm test
+```
+
+Os testes rodam contra o banco `medicare_test`. Configure em `.env.test`:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/medicare_test"
+JWT_SECRET="medicare-jwt-secret-key-test-2026"
+```
+
+## Estrutura do Projeto
+
+```
+src/
+  app/
+    api/              # API Routes (backend)
+      auth/           # Autenticação
+      medications/    # CRUD de medicamentos
+      logs/           # Lembretes e doses
+      caregivers/     # Cuidadores
+      reports/        # Relatórios
+    login/            # Página de login
+    registro/         # Página de cadastro
+    ...               # Demais páginas do frontend
+  components/         # Componentes React
+  contexts/           # AuthContext + MedicationContext
+  lib/                # Utilitários (prisma, auth, validations, api)
+  types/              # Tipos TypeScript
+prisma/
+  schema.prisma       # Schema do banco de dados
+  seed.ts             # Script de seed
+  migrations/         # Migrações SQL
+__tests__/            # Testes automatizados
+```
+
+
+maria@medicare.com / 123456 (Paciente - 5 medicamentos)
+joao@medicare.com / 123456 (Cuidador)
+ana@medicare.com / 123456 (Paciente - 1 medicamento)

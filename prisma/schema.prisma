@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoPerfil {
+  PACIENTE
+  CUIDADOR
+}
+
+enum StatusLembrete {
+  PENDENTE
+  ENVIADO
+  CONFIRMADO
+  IGNORADO
+}
+
+enum StatusAdministracao {
+  ADMINISTRADO
+  NAO_ADMINISTRADO
+  ADIADO
+  CANCELADO
+}
+
+model Usuario {
+  id             Int       @id @default(autoincrement())
+  nome           String    @db.VarChar(100)
+  email          String    @unique @db.VarChar(100)
+  senha          String    @db.VarChar(255)
+  telefone       String?   @db.VarChar(15)
+  dataNascimento DateTime? @map("data_nascimento") @db.Date
+  tipoPerfil     TipoPerfil @default(PACIENTE) @map("tipo_perfil")
+  criadoEm       DateTime  @default(now()) @map("criado_em")
+  atualizadoEm   DateTime  @updatedAt @map("atualizado_em")
+
+  medicamentos    Medicamento[]
+  historicos      Historico[]
+  relatorios      Relatorio[]
+  cuidadoresDe    CuidadorPaciente[] @relation("Paciente")
+  cuidadoresPara  CuidadorPaciente[] @relation("Cuidador")
+
+  @@map("usuarios")
+}
+
+model CuidadorPaciente {
+  id              Int     @id @default(autoincrement())
+  pacienteId      Int     @map("paciente_id")
+  cuidadorId      Int     @map("cuidador_id")
+  relacionamento  String? @db.VarChar(50)
+  criadoEm        DateTime @default(now()) @map("criado_em")
+
+  paciente  Usuario @relation("Paciente", fields: [pacienteId], references: [id], onDelete: Cascade)
+  cuidador  Usuario @relation("Cuidador", fields: [cuidadorId], references: [id], onDelete: Cascade)
+
+  @@unique([pacienteId, cuidadorId])
+  @@map("cuidadores_pacientes")
+}
+
+model Medicamento {
+  id         Int       @id @default(autoincrement())
+  usuarioId  Int       @map("usuario_id")
+  nome       String    @db.VarChar(100)
+  dosagem    String    @db.VarChar(50)
+  frequencia String    @db.VarChar(20)
+  dataInicio DateTime  @map("data_inicio") @db.Date
+  dataFim    DateTime? @map("data_fim") @db.Date
+  estoque    Int?
+  cor        String?   @db.VarChar(20)
+  instrucoes String?   @db.VarChar(255)
+  ativo      Boolean   @default(true)
+  criadoEm   DateTime  @default(now()) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+
+  usuario    Usuario    @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  lembretes  Lembrete[]
+  historicos Historico[]
+
+  @@map("medicamentos")
+}
+
+model Lembrete {
+  id             Int            @id @default(autoincrement())
+  medicamentoId  Int            @map("medicamento_id")
+  horario        DateTime
+  status         StatusLembrete @default(PENDENTE)
+  mensagem       String?        @db.VarChar(255)
+  criadoEm       DateTime       @default(now()) @map("criado_em")
+  atualizadoEm   DateTime       @updatedAt @map("atualizado_em")
+
+  medicamento Medicamento @relation(fields: [medicamentoId], references: [id], onDelete: Cascade)
+
+  @@map("lembretes")
+}
+
+model Historico {
+  id                  Int                  @id @default(autoincrement())
+  usuarioId           Int                  @map("usuario_id")
+  medicamentoId       Int                  @map("medicamento_id")
+  dataHora            DateTime             @map("data_hora")
+  statusAdministracao StatusAdministracao   @map("status_administracao")
+  observacao          String?              @db.Text
+  criadoEm            DateTime             @default(now()) @map("criado_em")
+
+  usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  medicamento Medicamento @relation(fields: [medicamentoId], references: [id], onDelete: Cascade)
+
+  @@map("historicos")
+}
+
+model Relatorio {
+  id            Int      @id @default(autoincrement())
+  usuarioId     Int      @map("usuario_id")
+  periodoInicio DateTime @map("periodo_inicio") @db.Date
+  periodoFim    DateTime @map("periodo_fim") @db.Date
+  aderencia     Decimal  @db.Decimal(5, 2)
+  dadosGerais   String?  @map("dados_gerais") @db.Text
+  criadoEm      DateTime @default(now()) @map("criado_em")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@map("relatorios")
+}

@@ -1,0 +1,528 @@
+TERMO DE ABERTURA DO PROJETO TAP
+SUMÁRIO
+1. Identificação do Projeto
+2. Visão Geral do Projeto
+3. Objetivos
+4. Requisitos
+4.1 Requisitos Funcionais
+4.2 Requisitos Não Funcionais
+5. Justificativa
+6. Análise de Riscos
+7. Custos e Recursos
+8. Cronograma Preliminar
+9. Equipe do Projeto
+10. Aprovações
+11. Controle de Versões
+12. Ata de Reuniões
+13. Escopo do Projeto
+14. MER
+15. Diagramas
+16. Dicionário de Dados
+RESUMO
+Este documento apresenta o Termo de Abertura do Projeto (TAP) para a criação de um aplicativo móvel de lembrete inteligente de medicamentos. O projeto tem como objetivo desenvolver uma solução tecnológica que apoie indivíduos no gerenciamento adequado de suas medicações, por meio de um sistema de alertas, acompanhamento remoto e funcionalidades avançadas de segurança. O aplicativo integrará tecnologias, priorizando a acessibilidade universal e o cumprimento de regulamentações de privacidade. Com um investimento estimado de R$ 17.500,00 e um período de execução de 6 meses, o projeto almeja reduzir em 80% os casos de esquecimento de doses e melhorar consideravelmente a adesão aos remédios e tratamentos médicos.
+
+
+
+
+ABSTRACT
+This document presents the Project Opening Term (TAP) for the development of a mobile application for intelligent medication reminders. The project aims to create a technological solution that helps people correctly manage their medications, through a notification system, remote monitoring and advanced security features. The application will incorporate technologies, with a focus on universal accessibility and compliance with privacy standards. With an estimated investment of R$ 17,500.00 and a 6-month execution period, the project seeks to reduce missed doses by 80% and significantly increase adherence to medical treatments.
+
+1. IDENTIFICAÇÃO DO PROJETO
+Nome do Projeto: Lembrete Inteligente de Medicamentos
+Data de Início: 01/02/2025
+Responsáveis: Daniel Alvares e Gustavo Gutierrez
+Versão: 1.1
+Patrocinador: UNIGOIAS
+2. VISÃO GERAL DO PROJETO
+O projeto "Lembrete Inteligente de Medicamentos" é uma iniciativa inovadora que visa desenvolver uma solução tecnológica avançada para auxiliar pessoas na administração correta de seus medicamentos. O aplicativo móvel incorporará um sistema inteligente de notificações, incluindo alertas sonoros e visuais configuráveis, lembretes por push notification e confirmação de medicação tomada.
+Nossa solução implementará um gerenciamento avançado de medicações, oferecendo cadastro detalhado de medicamentos e doses, histórico completo de administração e relatórios abrangentes de aderência ao tratamento. Para cuidadores e familiares, disponibilizaremos funcionalidades de monitoramento remoto em tempo real, alertas de doses perdidas ou atrasadas e compartilhamento de relatórios com profissionais de saúde.
+O aplicativo integrará tecnologias de ponta como Machine Learning para adaptação às rotinas do usuário, Blockchain para garantia de segurança dos dados, APIs robustas para integração com sistemas de saúde e cloud computing para processamento e armazenamento seguro. Todo o desenvolvimento seguirá rigorosos padrões de segurança e privacidade, com criptografia end-to-end, autenticação de dois fatores, backup automático e total conformidade com LGPD e HIPAA.
+A interface será desenvolvida com foco em acessibilidade universal, contemplando suporte a leitores de tela, opções de alto contraste, textos redimensionáveis e comandos por voz, garantindo uma experiência intuitiva e agradável para usuários de todas as idades e níveis de familiaridade com tecnologia.
+3. OBJETIVOS
+Objetivo Geral:
+O propósito central deste projeto é criar um aplicativo móvel inovador que transformará a forma como os indivíduos administram seus medicamentos. Essa solução tecnológica será desenvolvida com as seguintes características essenciais: No que diz respeito a notificações e acompanhamento, o aplicativo incorporará um sistema sofisticado de alertas em tempo real, assegurando que os usuários não esqueçam nenhuma dose. As notificações serão altamente adaptáveis, permitindo personalizações de som, vibração e periodicidade conforme as preferências de cada usuário. Para a gestão de medicamentos, o sistema proporcionará um cadastro minucioso de cada fármaco, abrangendo nome, posologia, frequência e orientações específicas. Os usuários poderão registrar facilmente cada dose administrada, construir um histórico detalhado de uso e criar relatórios completos sobre sua conformidade com o tratamento. Sob a ótica da segurança e supervisão, o aplicativo possibilitará que cuidadores e familiares monitorem remotamente a administração dos medicamentos. Eles receberão notificações sobre doses omitidas ou atrasadas e poderão agir quando necessário, promovendo maior proteção e serenidade para todos os envolvidos. Como resultado final, almejamos obter uma melhoria expressiva na adesão aos tratamentos médicos, diminuindo falhas na administração de medicamentos e esquecimentos, o que, por consequência, resultará em melhores desfechos terapêuticos e maior bem-estar tanto para os usuários quanto para seus cuidadores.
+
+Objetivos Específicos:
+Reduzir em 80% os esquecimentos de doses de medicamentos.
+Aumentar a aderência ao tratamento médico, garantindo a continuidade do uso dos remédios prescritos.
+	Proporcionar maior autonomia aos pacientes, permitindo um acompanhamento facilitado e sem complicações.
+	Criar um sistema que permita que cuidadores e familiares monitorem o uso dos medicamentos, garantindo segurança e controle.
+4. ESCOPO DO PROJETO
+Inclusões (O que será feito)
+Desenvolvimento de aplicativo web e móvel para iOS e Android;
+Sistema de cadastro e autenticação de usuários; Módulo de cadastro de medicamentos com:
+Nome do medicamento;
+Dosagem;
+Frequência;
+Horários de administração;
+Data de início e término do tratamento;
+Sistema de notificações push:
+Lembretes de horários;
+Alertas de medicamentos acabando;
+Confirmação de medicação tomada; Módulo Para cuidadores/familiares:
+Monitoramento do paciente;
+Recebimento de alertas;
+Histórico de medicações;
+Relatórios e histórico de administração;
+Interface administrativa para gestão do sistema;
+Exclusões (O que não será feito)
+Venda ou distribuição de medicamentos;
+Prescrição médica digital;
+Integração com sistemas hospitalares;
+Diagnóstico ou recomendação de medicamentos; Versão web do aplicativo;
+5. JUSTIFICATIVA
+Pesquisas indicam que aproximadamente 50% dos pacientes não seguem adequadamente suas prescrições médicas, o que acarreta complicações de saúde e elevação dos custos com internações hospitalares. Este projeto visa preencher essa lacuna ao oferecer uma solução prática e eficaz para o acompanhamento de medicamentos.
+
+6. ANÁLISE DE RISCOS
+Risco	Impacto	Probabilidade	Mitigação
+Atrasos no desenvolvimento	Alto	Média	Metodologia ágil e sprints bem definidos
+Problemas de integração	Médio	Baixa	Testes contínuos de integração
+Resistência dos usuários	Alto	Média	UX focada em simplicidade
+Falhas de segurança	Alto	Baixa	Auditorias regulares
+7. CUSTOS E RECURSOS
+Recurso	Quantidade	Custo Unitário	Custo Total
+Desenvolvimento Programadores)	2	R$ 5.000,00	R$ 10.000,00
+Servidor e Hospedagem	1	R$ 1.500,00	R$ 1.500,00
+Licenças de Software	1	R$ 1.000,00	R$ 1.000,00
+Marketing e Divulgação	1	R$ 2.000,00	R$ 2.000,00
+Manutenção e Suporte	6 meses	R$ 500,00/mês	R$ 3.000,00
+Total Estimado	-	-	R$ 17.500,00
+8. CRONOGRAMA PRELIMINAR
+Fase	Início	Término	Duração
+Planejamento	01/02/2025	28/02/2025	4 semanas
+Desenvolvimento	01/03/2025	31/05/2025	13 semanas
+Testes	01/06/2025	30/06/2025	4 semanas
+Implantação	01/07/2025	31/07/2025	4 semanas
+9. EQUIPE DO PROJETO
+Função	Responsabilidade	Nome
+Gerente de Projeto	Coordenação geral	Daniel Alvares
+Desenvolvedor Front-end	Interface do usuário	Gustavo Gutierrez
+Desenvolvedor Back-end	Servidor e banco de dados	Daniel Alvares
+UX/UI Designer	Design de interface	Gustavo Gutierrez
+Quality Assurance	Testes e qualidade	Equipe Externa
+10. APROVAÇÕES
+Responsável pelo Projeto: ________________
+Data: //___
+Patrocinador: ________________
+Data: //___
+11. CONTROLE DE VERSÕES
+Versão	Data	Descrição da Alteração	Responsável
+1.0	01/02/2025	Documento inicial do Termo de Abertura do Projeto	Daniel Alvares
+1.1	12/03/2025	Adição de detalhes sobre cronograma e equipe	Gustavo Gutierrez
+12. ATA DE REUNIÕES
+Reunião 01 - Início do Projeto Data: 01/02/2025 Horário: 10h00 - 11h30 Local: Sala de reuniões UNIGOIAS / Videoconferência via Zoom
+Participantes:
+Daniel Alvares (Gerente de Projeto)
+Gustavo Gutierrez (Desenvolvedor Front-end e UX/UI Designer)
+Marina Souza (Consultora de UX)
+Ricardo Mendes (Especialista em Segurança da Informação)
+Fernanda Oliveira (Representante dos usuários/pacientes)
+    João Pereira  (Representante do Patrocinador  (UNIGOIAS))
+
+Pauta:
+1. Apresentação do projeto e sua importância;
+2. Definição das funcionalidades principais;
+3. Discussão sobre requisitos técnicos;
+4. Análise de riscos e mitigação;
+5. Definição do cronograma inicial;
+6. Próximos passos e responsabilidades; 
+Discussões e Decisões:
+	Apresentação do projeto: Daniel Alvares iniciou explicando a necessidade do aplicativo e os problemas que ele resolve, com ênfase na melhoria da aderência ao tratamento medicamentoso.
+	Funcionalidades principais: Foram confirmados os módulos principais, incluindo o sistema de notificações, cadastro de medicamentos e controle de histórico.
+	Requisitos técnicos: Ricardo Mendes destacou a necessidade de priorizar a segurança dos dados dos usuários, garantindo segurança com a LGPD.
+	Análise de riscos: João Pereira sugeriu estratégias para evitar atrasos no desenvolvimento, como o uso de metodologias ágeis.
+	Cronograma: A equipe revisou e ajustou o cronograma, reforçando a necessidade de uma fase de testes robusta antes da implantação.
+	Próximos passos: Cada membro recebeu uma responsabilidade específica, e uma nova reunião foi agendada para a primeira revisão do protótipo.
+Ações e Responsáveis:
+Ação	Responsável	Prazo
+Criar protótipo inicial no Figma	Gustavo Gutierrez	15/02/2025
+Definir arquitetura de banco de dados	Daniel Alvares	20/02/2025
+Revisar diretrizes de segurança e conformidade	Ricardo Mendes	25/02/2025
+Coletar feedback inicial de usuários	Fernanda Oliveira	28/02/2025
+Encerramento:
+A reunião foi encerrada às 11h30, com todos os participantes alinhados sobre os próximos passos. Uma nova reunião de acompanhamento foi marcada para 01/03/2025.
+Registro da Ata: ________________ (Daniel Alvares) Data: 01/02/2025
+Reunião 02 - Revisão do Protótipo Inicial
+Data: 01/03/2025
+Horário: 10h00  11h30
+Local: Videoconferência via Zoom Participantes:
+Daniel Alvares (Gerente de Projeto)
+Gustavo Gutierrez (Desenvolvedor Front-end e UX/UI Designer)
+Marina Souza (Consultora de UX)
+   Ricardo Mendes (Especialista em Segurança da Informação) 
+Pauta:
+1. Apresentação do protótipo inicial
+2. Feedback dos participantes
+ 3. Ajustes necessários antes do desenvolvimento 
+Discussões e Decisões:
+	O protótipo inicial foi validado, com pequenas melhorias sugeridas na interface.
+Ajustes na acessibilidade foram recomendados por Marina Souza.
+A equipe de desenvolvimento iniciará a implementação no dia 10/03/2025.
+Ações e Responsáveis:
+Ação	Responsável	Prazo
+Revisar acessibilidade do protótipo	Marina Souza	05/03/2025
+Iniciar implementação do front-end	Gustavo Gutierrez	10/03/2025
+
+Reunião 03 - Revisão do Módulo de Notificações
+Data: 15/04/2025
+Horário: 14h00 / 15h30
+Local: Sala de reuniões UNIGOIAS 
+Participantes:
+Daniel Alvares (Gerente de Projeto)
+Gustavo Gutierrez (Desenvolvedor Front-end e UX/UI Designer)
+Ricardo Mendes (Especialista em Segurança da Informação)
+Fernanda Oliveira (Representante dos usuários/pacientes) 
+Pauta:
+1. Testes iniciais do módulo de notificações
+2. Verificação de possíveis falhas e melhorias 
+Discussões e Decisões:
+	Ajustes nas configurações de notificação foram solicitados para maior flexibilidade.
+        Testes indicaram um pequeno atraso nas notificações, que será otimizado.
+Ações e Responsáveis:
+Ação	Responsável	Prazo
+Ajustar configuração de notificações	Gustavo Gutierrez	20/04/2025
+Melhorar tempo de resposta do sistema	Daniel Alvares	25/04/2025
+
+Reunião 04 - Validação Final antes dos Testes
+Data: 25/05/2025
+Horário: 16h00 / 17h30
+Local: Videoconferência via Zoom 
+Participantes:
+Daniel Alvares Gerente de Projeto)
+Gustavo Gutierrez Desenvolvedor Front-end e UX/UI Designer)
+Ricardo Mendes Especialista em Segurança da Informação)
+Fernanda Oliveira Representante dos usuários/pacientes)
+ João Pereira Representante do Patrocinador (UNIGOIAS) 
+Pauta:
+1. Revisão final do desenvolvimento
+2. Preparação para os testes finais 
+Discussões e Decisões:
+Todos os módulos foram implementados e testados internamente.
+A equipe decidiu iniciar testes beta com um grupo seleto de usuários.
+Ações e Responsáveis:
+Ação	Responsável	Prazo
+Preparar versão beta para testes	Gustavo Gutierrez	30/05/2025
+Coordenar grupo de testadores beta	Fernanda Oliveira	01/06/2025
+
+Reunião 05 – Combinando entrega do Projeto até 31 de março
+Data: 10/02/2026
+Horário: 09h00 / 09h15
+Local: Presencialmente
+Participantes:
+Daniel Alvares Gerente de Projeto)
+Pro. Helver (Professor UNIGOIAS)
+Gustavo Gutierrez Desenvolvedor Front-end e UX/UI Designer)
+Ricardo Mendes Especialista em Segurança da Informação)
+Fernanda Oliveira Representante dos usuários/pacientes)
+ João Pereira Representante do Patrocinador (UNIGOIAS) 
+Pauta:
+1. O que produzimos até esta data (10 de fevereiro de 2026)
+2.  E quais requisitos do software temos que entregar até a N1.
+Discussões e Decisões:
+-Serão 5 requisitos e cada um valerá 2 pontos, pela sua entrega.
+-Início da produção do sistema em Figma e depois o seu desenvolvimento no Trae.
+-Somente controle de estoque e notificações serrão ignoradas nessa etapa.
+
+13. REQUISITOS
+13.1 Requisitos Funcionais
+ID	Requisito	Prioridade	Complexidade
+RF01	Cadastro e autenticação de usuários	Alta	Média
+	O sistema deve permitir que os usuários criem contas com login e senha seguros. Pode incluir autenticação via redes sociais ou autenticação de dois fatores.		
+RF02	Gerenciamento de perfis Paciente/Cuidador)	Alta	Média
+	O sistema deve possibilitar que os usuários escolham entre diferentes perfis: paciente (quem toma a medicação) ou cuidador (quem monitora o paciente). O cuidador deve ter acesso ao		
+	histórico e notificações do paciente.		
+RF03	Cadastro de medicamentos	Alta	Alta
+	O usuário deve ser capaz de inserir os medicamentos que utiliza, informando nome, dosagem, frequência e horários específicos para cada um.		
+RF04	Sistema de notificações	Alta	Alta
+	O aplicativo deve enviar alertas e lembretes para garantir que os usuários tomem os medicamentos
+nos horários corretos. As notificações devem ser configuráveis e personalizáveis.		
+RF05	Registro de medicações tomadas	Alta	Média
+	O usuário deve confirmar quando tomou um medicamento para que o aplicativo registre e atualize o histórico de uso.		
+RF06	Histórico de tratamento	Média	Média
+	Deve ser possível visualizar um histórico detalhado do uso de medicamentos, incluindo horários, doses e confirmações do usuário.		
+RF07	Controle de estoque	Média	Baixa
+	O sistema pode incluir um controle de estoque, notificando o usuário quando um medicamento estiver acabando.		
+RF08	Relatórios de adesão	Baixa	Alta
+	O aplicativo pode gerar relatórios para monitorar a regularidade da medicação e auxiliar no acompanhamento médico.		
+13.2 Requisitos Não Funcionais
+ID	Requisito	Descrição	Métrica
+RNF01	Segurança	O sistema deve proteger os dados pessoais dos usuários contra acessos não autorizados e vazamentos.	LGPD compliant
+RNF02	Desempenho	O aplicativo deve responder rapidamente às interações do usuário, evitando atrasos na navegação.	Tempo de resposta máximo de 3 segundos
+RNF03	Disponibilidade	O serviço deve estar disponível para os usuários a maior parte do tempo, minimizando interrupções.	99.9% uptime
+RNF04	Usabilidade	O aplicativo deve ser intuitivo e acessível para usuários de todas as idades.	Compatível com diretrizes WCAG 2.1
+RNF05	Compatibilidade	O sistema deve ser compatível com diferentes plataformas móveis.	Disponível para Android e iOS
+
+
+
+
+
+
+
+
+
+14. MODELO DE ENTIDADE E RELACIONAMENTO (MER) 
+ 
+Este diagrama MER representa as principais entidades e seus relacionamentos no sistema de gerenciamento de medicamentos:
+	USUARIO: Entidade central que representa tanto pacientes quanto cuidadores
+	MEDICAMENTO: Armazena informações sobre os medicamentos cadastrados
+LEMBRETE: Controla as notificações e horários de medicação
+HISTORICO: Registra o histórico de medicações tomadas
+PERFIL: Define o tipo de usuário (paciente ou cuidador)
+CUIDADOR: Informações específicas dos cuidadores
+ESTOQUE: Controle de quantidade e validade dos medicamentos
+15. DIAGRAMAS
+ 
+ 
+Diagrama de Casos de Uso
+O diagrama de casos de uso é uma representação visual fundamental que detalha minuciosamente as interações entre os diferentes atores do sistema. Este diagrama se justifica pela necessidade de:
+1. Estabelecer uma clara distinção entre as responsabilidades dos atores principais (Usuário e Cuidador), demonstrando suas respectivas capacidades e limitações no sistema.
+2. Ilustrar o fluxo completo de funcionalidades, onde o Usuário possui autonomia para:
+Realizar o cadastro detalhado de seus medicamentos
+Acessar e consultar seu histórico completo de medicações
+Receber notificações personalizadas em tempo real
+3. Especificar as atribuições exclusivas do Cuidador, que incluem:
+Monitoramento em tempo real das atividades do paciente
+Acesso ao histórico detalhado de medicações
+Acompanhamento do cumprimento das prescrições
+4. Demonstrar as funções automatizadas do sistema, responsável por:
+Gerenciamento inteligente das notificações Geração de relatórios analíticos detalhados
+Controle preciso do estoque de medicamentos
+Disparo programado de lembretes nos horários exatos
+Esta estrutura garante uma compreensão aprofundada das interações e dependências entre todos os componentes do sistema, assegurando sua eficácia e usabilidade.
+Detalhamento dos Casos de Uso 1. Atores do Sistema
+Usuário Principal (Paciente)
+Pessoa que necessita gerenciar suas medicações
+Principal beneficiário do sistema
+Interage diretamente com as funcionalidades básicas do app
+Cuidador/Familiar
+Pessoa responsável por auxiliar o usuário principal
+Monitora a administração dos medicamentos
+Recebe notificações e alertas sobre o paciente
+Sistema de Notificações
+Ator não-humano
+Responsável pelo envio automático de lembretes Gerencia os alertas do sistema
+2. Casos de Uso Principais
+UC01 - Cadastrar Usuário
+Ator: Usuário Principal
+Descrição: Processo de registro inicial no aplicativo
+Pré-condições: Ter um dispositivo compatível com o app
+Fluxo principal: Preenchimento de dados pessoais e criação de credenciais
+UC02 - Gerenciar Medicamentos
+Ator: Usuário Principal
+Descrição: Cadastro e gestão de medicamentos
+Pré-condições: Estar autenticado no sistema
+Fluxo principal: Adicionar, editar ou remover medicamentos do sistema
+UC03 - Configurar Lembretes
+Ator: Usuário Principal
+Descrição: Definição dos horários e frequência das notificações
+Pré-condições: Ter medicamentos cadastrados
+Fluxo principal: Estabelecer parâmetros de notificação para cada medicamento
+UC04 - Monitorar Paciente
+Ator: Cuidador/Familiar
+Descrição: Acompanhamento das medicações do usuário principal
+Pré-condições: Ter permissão de acesso concedida pelo usuário principal
+Fluxo principal: Visualizar histórico e receber alertas sobre medicações
+UC05 - Enviar Notificações
+Ator: Sistema de Notificações
+Descrição: Envio automático de lembretes e alertas
+Pré-condições: Existência de lembretes configurados
+Fluxo principal: Verificar horários e disparar notificações programadas 
+3. Relacionamentos e Dependências
+Os casos de uso apresentam interdependências claras, onde o cadastro de usuário é pré-requisito para as demais funcionalidades. O sistema de notificações depende da configuração adequada dos lembretes, que por sua vez depende do cadastro correto dos medicamentos.
+4. Extensões e Inclusões
+O caso de uso "Gerenciar Medicamentos" inclui funcionalidades de:
+Cadastro de novo medicamento
+Edição de medicamentos existentes
+Exclusão de medicamentos
+		Consulta ao histórico de medicações
+-Diagrama de sequência:
+ 
+Diagrama de Sequência
+O diagrama de sequência demonstra o fluxo de interações entre o Usuário, App, Banco de Dados e Sistema de Notificação. Ilustra o processo desde o cadastro do medicamento até a confirmação da medicação tomada. Inclui um loop de verificação contínua dos horários, que consulta a programação e envia lembretes aos usuários. Quando o usuário confirma que tomou a medicação, o sistema atualiza o histórico no banco de dados.
+Detalhamento do Diagrama de Sequência
+⦁	Atores Envolvidos
+Usuário: Ator principal que interage com o aplicativo
+App: Interface do aplicativo móvel
+Banco de Dados: Sistema de armazenamento persistente
+Sistema de Notificação: Componente responsável pelos lembretes
+⦁	Fluxo Principal
+1. Cadastro de Medicamento
+Usuário insere dados do medicamento no app
+App valida as informações inseridas
+Dados são persistidos no banco de dados
+Confirmação é enviada ao usuário
+2. Loop de Verificação
+Sistema verifica continuamente os horários programados
+Consulta programação no banco de dados
+Identifica medicamentos que devem ser administrados
+3. Processo de Notificação
+Sistema de notificação gera o lembrete
+Notificação é enviada ao usuário
+Confirmação de entrega é registrada
+4. Confirmação de Medicação
+Usuário recebe e visualiza a notificação
+Confirma a administração do medicamento
+App registra a confirmação
+Banco de dados é atualizado com o novo status 
+3.  Mensagens e Interações
+Síncronas: Operações que requerem resposta imediata
+Cadastro de medicamento
+Validação de dados
+Confirmação de medicação
+Assíncronas: Operações que não exigem resposta imediata
+Envio de notificações
+Atualizações de status
+Verificações periódicas
+⦁	Tratamento de Exceções
+Falha na conexão com banco de dados
+Erro no envio de notificações
+Timeout nas operações síncronas
+Conflitos de dados
+⦁	Pontos de Sincronização
+Confirmação de cadastro de medicamento
+Registro de administração de medicação
+Atualização de histórico
+⦁	Aspectos de Segurança
+Validação de usuário em cada interação
+Criptografia na comunicação com banco de dados
+Registro de logs de operações críticas Controle de acesso às informações sensíveis
+
+
+
+
+     -Diagrama de classes:
+ 
+Diagrama de Classes
+O diagrama de classes apresenta a estrutura das principais classes do sistema e seus relacionamentos. A classe “Usuárioˮ possui atributos como: id, nome e e-mail, e métodos para cadastrar medicamentos e confirmar medicações. A classe Medicamento contém informações sobre dosagem e frequência, relacionando-se com a classe Lembrete. A classe Cuidador permite o monitoramento dos pacientes. As relações entre as classes mostram que um usuário pode ter vários medicamentos, cada medicamento pode gerar vários lembretes, e um usuário pode ter múltiplos cuidadores.
+
+Detalhamento do Diagrama de Classes
+A seguir, uma análise detalhada de cada classe e seus componentes:
+1. Classe Usuário
+Atributos:
+id: Integer (PK) 
+nome: String 
+email: String 
+senha: String 
+telefone: String dataNascimento: Date Métodos:
+cadastrarMedicamento(medicamento: Medicamento): void confirmarMedicacao(medicamento: Medicamento): void adicionarCuidador(cuidador: Cuidador): void consultarHistorico(): List
+2. Classe Medicamento
+Atributos:
+id: Integer (PK) 
+nome: String 
+dosagem: String 
+frequencia: Integer 
+data Inicio: Date 
+dataFim: Date 
+estoque: Integer 
+Métodos:
+ criarLembrete(): Lembrete
+atualizarEstoque(): void 
+verificarValidade(): boolean
+3. Classe Lembrete
+Atributos:
+id: Integer (PK) 
+horario: DateTime 
+status: StatusLembrete mensagem: String 
+Métodos:
+enviarNotificacao(): void 
+alterarStatus(status: StatusLembrete): void 
+registrarConfirmacao(): void
+4. Classe Cuidador
+Atributos: id: Integer (PK) nome: String email: String telefone: String relacionamento: String Métodos:
+monitorarPaciente(usuario: Usuario): void 
+receberAlerta(lembrete: Lembrete): void 
+visualizarHistorico(usuario: Usuario): List
+5. Classe Historico
+Atributos:
+id: Integer (PK) dataHora: DateTime medicamento:
+Medicamento statusAdministracao: Status observacao: String 
+Métodos:
+registrarAdministracao(): void
+gerarRelatorio(): Relatorio
+6. Relacionamentos
+Usuario 1 --- * Medicamento (Um usuário pode ter vários medicamentos)
+Medicamento 1 --- * Lembrete (Um medicamento pode ter vários lembretes)
+Usuario 1 --- * Cuidador (Um usuário pode ter vários cuidadores)
+Usuario 1 --- * Historico (Um usuário possui vários registros históricos)
+Medicamento 1 --- * Historico (Um medicamento possui vários registros históricos)
+7. Enumerações
+StatusLembrete:
+PENDENTE
+ENVIADO
+CONFIRMADO
+IGNORADO
+Status:
+ADMINISTRADO
+NAO_ADMINISTRADO
+ADIADO
+CANCELADO
+16. DICIONARIO DE DADOS
+Este dicionário de dados descreve detalhadamente as estruturas das tabelas que compõem o banco de dados do sistema, seus atributos, tipos de dados, restrições e propósitos. Ele é essencial para orientar os desenvolvedores, analistas e DBAs na construção e manutenção da base de dados.
+Tabela: USUARIO
+Representa todos os usuários cadastrados no sistema, sejam pacientes ou cuidadores.
+Campo	Tipo de Dado	Obrigatório	Descrição
+id_usuario	INT (PK)	Sim	Identificador único do usuário.
+nome	VARCHAR(100)	Sim	Nome completo do usuário.
+email	VARCHAR(100)	Sim	E-mail único usado para login e comunicação.
+senha	VARCHAR(255) (HASH)	Sim	Senha criptografada do usuário.
+telefone	VARCHAR(15)	Não	Telefone opcional para contato.
+data_nascimento	DATE	Não	Usado para personalização e segurança.
+tipo_perfil	ENUM ('paciente', 'cuidador')	Sim	Define o papel do usuário no sistema.
+
+Tabela: CUIDADOR
+Registra os cuidadores associados a pacientes, permitindo o monitoramento remoto.
+Campo	Tipo de Dado	Obrigatório	Descrição
+id_cuidador	INT (PK)	Sim	Identificador único do cuidador.
+id_usuario_paciente	INT (FK)	Sim	ID do paciente vinculado a esse cuidador.
+relacionamento	VARCHAR(50)	Não	Define o vínculo (pai, mãe, enfermeiro, etc.).
+Tabela: MEDICAMENTO
+Armazena os dados dos medicamentos cadastrados pelo usuário.
+Campo	Tipo de Dado	Obrigatório	Descrição
+id_medicamento	INT (PK)	Sim	Identificador do medicamento.
+id_usuario	INT (FK)	Sim	ID do usuário que cadastrou.
+nome	VARCHAR(100)	Sim	Nome do medicamento.
+dosagem	VARCHAR(50)	Sim	Dosagem (ex: 500mg).
+frequencia	INT	Sim	Frequência de uso (ex: 2 vezes/dia).
+data_inicio	DATE	Sim	Data de início do tratamento.
+data_fim	DATE	Não	Data final prevista.
+estoque	INT	Não	Quantidade restante.
+
+Tabela: LEMBRETE
+Define os alertas programados para cada medicamento.
+Campo	Tipo de Dado	Obrigatório	Descrição
+id_lembrete	INT (PK)	Sim	Identificador do lembrete.
+id_medicamento	INT (FK)	Sim	Referência ao medicamento.
+horario	DATETIME	Sim	Data e hora exata do lembrete.
+status	ENUM ('PENDENTE',
+'ENVIADO', 'CONFIRMADO',
+'IGNORADO')	Sim	Estado atual do lembrete.
+mensagem	VARCHAR(255)	Não	Texto personalizado para o usuário.
+
+Tabela: HISTORICO
+Registra o uso efetivo dos medicamentos e suas confirmações.
+Campo	Tipo de Dado	Obrigatório	Descrição
+id_historico	INT (PK)	Sim	Identificador do registro.
+id_usuario	INT (FK)	Sim	Quem tomou o medicamento.
+id_medicamento	INT (FK)	Sim	Qual medicamento foi tomado.
+data_hora	DATETIME	Sim	Data e hora da administração.
+status_administracao	ENUM ('ADMINISTRADO', 'NAO_ADMINISTRADO',
+'ADIADO', 'CANCELADO')	Sim	Resultado da ação do usuário.
+observacao	TEXT	Não	Comentários sobre o uso (ex:
+efeitos colaterais).
+
+Tabela: RELATORIO
+Gera dados analíticos para acompanhamento da aderência ao tratamento.
+Campo	Tipo de Dado	Obrigatório	Descrição
+id_relatorio	INT (PK)	Sim	ID do relatório gerado.
+id_usuario	INT (FK)	Sim	Para qual usuário foi gerado.
+periodo_inicio	DATE	Sim	Início do período analisado.
+periodo_fim	DATE	Sim	Fim do período.
+aderencia	DECIMAL (5,2)	Sim	Percentual de cumprimento das medicações.
+dados_gerais	TEXT	Não	Informações adicionais (ex:
+resumo por semana).
+
+Considerações sobre Segurança e Privacidade
+	Senhas devem ser armazenadas de forma segura com hashing (bcrypt, Argon2.
+Dados sensíveis devem ser protegidos por criptografia e respeitar a LGPD.
+Logs de auditoria devem ser mantidos para ações críticas (ex: acesso de cuidador, falha de notificação).
+

@@ -264,10 +264,12 @@ export function Dashboard({ medications, logs, onMarkAsTaken }: DashboardProps) 
             </div>
             
             <div className="mt-6 pt-6 border-t border-border/10">
+              <a href="/relatorios">
               <Button variant="outline" className="w-full justify-between group hover:border-primary/50 transition-colors">
                 Ver Relatório Completo
                 <TrendingUp className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
               </Button>
+              </a>
             </div>
           </div>
         </motion.div>

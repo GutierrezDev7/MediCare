@@ -1,200 +1,223 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Medication, MedicationLog } from '@/types/medication';
-import { mockMedications, mockLogs } from '@/data/mockData';
+import { api } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-import { addHours, addDays, isAfter, isBefore, startOfHour } from 'date-fns';
 
 interface MedicationContextType {
   medications: Medication[];
   logs: MedicationLog[];
-  addMedication: (newMed: Omit<Medication, 'id'>) => void;
-  updateMedication: (updatedMed: Medication) => void;
-  deleteMedication: (id: string) => void;
-  toggleMedicationActive: (id: string) => void;
-  markDoseAsTaken: (logId: string) => void;
+  loading: boolean;
+  addMedication: (newMed: Omit<Medication, 'id'>) => Promise<void>;
+  updateMedication: (updatedMed: Medication) => Promise<void>;
+  deleteMedication: (id: string) => Promise<void>;
+  toggleMedicationActive: (id: string) => Promise<void>;
+  markDoseAsTaken: (logId: string) => Promise<void>;
+  markDoseAsSkipped: (logId: string) => Promise<void>;
+  refreshMedications: () => Promise<void>;
+  refreshLogs: () => Promise<void>;
 }
 
 const MedicationContext = createContext<MedicationContextType | undefined>(undefined);
 
-// Helper to parse frequency string to hours
-const getHoursFromFrequency = (freq: string): number => {
-  const match = freq.match(/(\d+)h/);
-  return match ? parseInt(match[1]) : 24;
-};
+interface ApiMedication {
+  id: number;
+  nome: string;
+  dosagem: string;
+  frequencia: string;
+  ativo: boolean;
+  cor?: string | null;
+  estoque?: number | null;
+  instrucoes?: string | null;
+  dataInicio: string;
+  dataFim?: string | null;
+  lembretes?: ApiLembrete[];
+}
 
-// Helper to generate future logs
-const generateFutureLogs = (medication: Medication, existingLogs: MedicationLog[] = []): MedicationLog[] => {
-  const hours = getHoursFromFrequency(medication.frequency);
-  const logs: MedicationLog[] = [];
-  const now = new Date();
-  const horizon = addDays(now, 30); // Generate for next 30 days
-  
-  // Find the last scheduled log time or use start date
-  // Filter logs for this medication that are not missed/skipped/taken (pending)
-  // Actually, we want to start generating from the last valid log or start date
-  
-  let nextTime = new Date(medication.startDate);
-  
-  // If start date is in the past, align it to near future or keep it?
-  // If I add a med that started 10 days ago, I probably want to see missed doses? 
-  // Or just future ones? 
-  // Let's assume we want to backfill a bit if it's recent, but mostly future.
-  // For simplicity and user experience, if startDate is very old, we might only want future logs.
-  // But if the user just created it, startDate is "now".
-  
-  // Strategy:
-  // 1. Start from medication.startDate.
-  // 2. Loop adding 'hours' until we reach 'horizon'.
-  // 3. Only keep logs that are NOT already in existingLogs (deduplication based on time roughly? or just overwrite future pending?)
-  
-  // Better Strategy for Update:
-  // 1. Remove all FUTURE 'pending' logs for this medication.
-  // 2. Generate new logs starting from NOW (aligned to the original schedule if possible, or just fresh from now).
-  
-  // Let's stick to a simple generation for new meds first:
-  while (isBefore(nextTime, horizon)) {
-    // Only add if it's not way in the past (e.g., more than 24h ago) to avoid flooding missed notifications for a new med?
-    // Or maybe we accept it.
-    
-    // Check if a log already exists around this time (within 5 mins tolerance)
-    const exists = existingLogs.some(log => 
-      log.medicationId === medication.id && 
-      Math.abs(log.scheduledTime.getTime() - nextTime.getTime()) < 5 * 60 * 1000
-    );
+interface ApiLembrete {
+  id: number;
+  medicamentoId: number;
+  horario: string;
+  status: string;
+  mensagem?: string | null;
+  medicamento?: { id: number; nome: string; dosagem: string; cor?: string | null };
+}
 
-    if (!exists) {
-      logs.push({
-        id: `${medication.id}-${nextTime.getTime()}`,
-        medicationId: medication.id,
-        scheduledTime: new Date(nextTime),
-        status: 'pending'
-      });
-    }
-    
-    nextTime = addHours(nextTime, hours);
-  }
-  
-  return logs;
-};
+function mapApiMedication(m: ApiMedication): Medication {
+  return {
+    id: m.id.toString(),
+    name: m.nome,
+    dosage: m.dosagem,
+    frequency: m.frequencia,
+    active: m.ativo,
+    color: m.cor || undefined,
+    stock: m.estoque ?? undefined,
+    instructions: m.instrucoes || undefined,
+    startDate: new Date(m.dataInicio),
+    endDate: m.dataFim ? new Date(m.dataFim) : undefined,
+  };
+}
+
+function mapApiLog(l: ApiLembrete): MedicationLog {
+  const statusMap: Record<string, MedicationLog['status']> = {
+    PENDENTE: 'pending',
+    ENVIADO: 'pending',
+    CONFIRMADO: 'taken',
+    IGNORADO: 'skipped',
+  };
+
+  return {
+    id: l.id.toString(),
+    medicationId: (l.medicamentoId || l.medicamento?.id || 0).toString(),
+    scheduledTime: new Date(l.horario),
+    status: statusMap[l.status] || 'pending',
+  };
+}
 
 export function MedicationProvider({ children }: { children: React.ReactNode }) {
-  const [medications, setMedications] = useState<Medication[]>(mockMedications);
-  const [logs, setLogs] = useState<MedicationLog[]>(mockLogs);
+  const { user } = useAuth();
+  const [medications, setMedications] = useState<Medication[]>([]);
+  const [logs, setLogs] = useState<MedicationLog[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Load from localStorage on mount (optional persistence)
-  useEffect(() => {
-    const storedMeds = localStorage.getItem('medications');
-    const storedLogs = localStorage.getItem('logs');
-    
-    if (storedMeds) {
-      try {
-        const parsedMeds = JSON.parse(storedMeds).map((med: any) => ({
-          ...med,
-          startDate: new Date(med.startDate)
-        }));
-        setMedications(parsedMeds);
-      } catch (e) {
-        console.error('Failed to parse medications from localStorage', e);
-      }
-    }
-    
-    if (storedLogs) {
-      try {
-        const parsedLogs = JSON.parse(storedLogs).map((log: any) => ({
-          ...log,
-          scheduledTime: new Date(log.scheduledTime),
-          takenTime: log.takenTime ? new Date(log.takenTime) : undefined
-        }));
-        setLogs(parsedLogs);
-      } catch (e) {
-        console.error('Failed to parse logs from localStorage', e);
-      }
-    }
-  }, []);
-
-  // Save to localStorage on change
-  useEffect(() => {
-    localStorage.setItem('medications', JSON.stringify(medications));
-  }, [medications]);
-
-  useEffect(() => {
-    localStorage.setItem('logs', JSON.stringify(logs));
-  }, [logs]);
-
-  const addMedication = (newMed: Omit<Medication, 'id'>) => {
-    const medication: Medication = {
-      ...newMed,
-      id: Date.now().toString(),
-    };
-    
-    setMedications((prev) => [...prev, medication]);
-    
-    // Generate logs for the new medication
-    const newLogs = generateFutureLogs(medication, []);
-    setLogs((prev) => [...prev, ...newLogs]);
-    
-    toast.success('Medicamento adicionado com sucesso!');
-  };
-
-  const updateMedication = (updatedMed: Medication) => {
-    setMedications((prev) =>
-      prev.map((med) => (med.id === updatedMed.id ? updatedMed : med))
-    );
-    
-    // Regenerate future logs if critical fields changed
-    // We remove future pending logs and recreate them
-    const now = new Date();
-    setLogs((prev) => {
-      // Keep past logs or logs that are already taken/missed/skipped
-      const keepLogs = prev.filter(log => 
-        log.medicationId !== updatedMed.id || 
-        isBefore(log.scheduledTime, now) || 
-        log.status !== 'pending'
+  const refreshMedications = useCallback(async () => {
+    if (!user) return;
+    const res = await api.medications.list();
+    if (res.data) {
+      setMedications(
+        (res.data.medications as ApiMedication[]).map(mapApiMedication)
       );
-      
-      const newFutureLogs = generateFutureLogs(updatedMed, keepLogs);
-      
-      // Merge and sort
-      return [...keepLogs, ...newFutureLogs].sort((a, b) => b.scheduledTime.getTime() - a.scheduledTime.getTime());
+    }
+  }, [user]);
+
+  const refreshLogs = useCallback(async () => {
+    if (!user) return;
+    const res = await api.logs.list({ limit: '500' });
+    if (res.data) {
+      setLogs((res.data.logs as ApiLembrete[]).map(mapApiLog));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setLoading(true);
+      Promise.all([refreshMedications(), refreshLogs()]).finally(() =>
+        setLoading(false)
+      );
+    } else {
+      setMedications([]);
+      setLogs([]);
+      setLoading(false);
+    }
+  }, [user, refreshMedications, refreshLogs]);
+
+  const addMedication = async (newMed: Omit<Medication, 'id'>) => {
+    const res = await api.medications.create({
+      nome: newMed.name,
+      dosagem: newMed.dosage,
+      frequencia: newMed.frequency,
+      dataInicio: newMed.startDate instanceof Date
+        ? newMed.startDate.toISOString()
+        : newMed.startDate,
+      dataFim: newMed.endDate
+        ? newMed.endDate instanceof Date
+          ? newMed.endDate.toISOString()
+          : newMed.endDate
+        : null,
+      estoque: newMed.stock ?? null,
+      cor: newMed.color ?? null,
+      instrucoes: newMed.instructions ?? null,
+      ativo: newMed.active,
     });
 
+    if (res.error) {
+      toast.error(res.error);
+      return;
+    }
+
+    toast.success('Medicamento adicionado com sucesso!');
+    await Promise.all([refreshMedications(), refreshLogs()]);
+  };
+
+  const updateMedication = async (updatedMed: Medication) => {
+    const res = await api.medications.update(parseInt(updatedMed.id), {
+      nome: updatedMed.name,
+      dosagem: updatedMed.dosage,
+      frequencia: updatedMed.frequency,
+      dataInicio: updatedMed.startDate instanceof Date
+        ? updatedMed.startDate.toISOString()
+        : updatedMed.startDate,
+      dataFim: updatedMed.endDate
+        ? updatedMed.endDate instanceof Date
+          ? updatedMed.endDate.toISOString()
+          : updatedMed.endDate
+        : null,
+      estoque: updatedMed.stock ?? null,
+      cor: updatedMed.color ?? null,
+      instrucoes: updatedMed.instructions ?? null,
+      ativo: updatedMed.active,
+    });
+
+    if (res.error) {
+      toast.error(res.error);
+      return;
+    }
+
     toast.success('Medicamento atualizado com sucesso!');
+    await Promise.all([refreshMedications(), refreshLogs()]);
   };
 
-  const deleteMedication = (id: string) => {
-    setMedications((prev) => prev.filter((med) => med.id !== id));
-    // Remove all logs associated with this medication
-    setLogs((prev) => prev.filter((log) => log.medicationId !== id));
+  const deleteMedication = async (id: string) => {
+    const res = await api.medications.delete(parseInt(id));
+
+    if (res.error) {
+      toast.error(res.error);
+      return;
+    }
+
     toast.success('Medicamento excluído com sucesso!');
+    await Promise.all([refreshMedications(), refreshLogs()]);
   };
 
-  const toggleMedicationActive = (id: string) => {
-    let isActive = false;
-    setMedications((prev) =>
-      prev.map((med) => {
-        if (med.id === id) {
-          isActive = !med.active;
-          return { ...med, active: !med.active };
-        }
-        return med;
-      })
-    );
-    toast.success(isActive ? 'Medicamento ativado' : 'Medicamento pausado');
+  const toggleMedicationActive = async (id: string) => {
+    const res = await api.medications.toggle(parseInt(id));
+
+    if (res.error) {
+      toast.error(res.error);
+      return;
+    }
+
+    const msg = res.data as Record<string, unknown> | undefined;
+    toast.success((msg?.message as string) || 'Status alterado');
+    await refreshMedications();
   };
 
-  const markDoseAsTaken = (logId: string) => {
-    setLogs((prev) =>
-      prev.map((log) =>
-        log.id === logId
-          ? { ...log, status: 'taken', takenTime: new Date() }
-          : log
-      )
-    );
+  const markDoseAsTaken = async (logId: string) => {
+    const res = await api.logs.take(parseInt(logId));
+
+    if (res.error) {
+      toast.error(res.error);
+      return;
+    }
+
     toast.success('Dose marcada como tomada!', {
       description: 'Parabéns por manter sua aderência ao tratamento.',
     });
+    await Promise.all([refreshMedications(), refreshLogs()]);
+  };
+
+  const markDoseAsSkipped = async (logId: string) => {
+    const res = await api.logs.skip(parseInt(logId));
+
+    if (res.error) {
+      toast.error(res.error);
+      return;
+    }
+
+    toast.success('Dose pulada');
+    await refreshLogs();
   };
 
   return (
@@ -202,11 +225,15 @@ export function MedicationProvider({ children }: { children: React.ReactNode }) 
       value={{
         medications,
         logs,
+        loading,
         addMedication,
         updateMedication,
         deleteMedication,
         toggleMedicationActive,
         markDoseAsTaken,
+        markDoseAsSkipped,
+        refreshMedications,
+        refreshLogs,
       }}
     >
       {children}

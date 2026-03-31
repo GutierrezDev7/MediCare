@@ -18,12 +18,13 @@ import {
   LogOut,
   User,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { mockUser } from '@/data/mockData';
 import { HelpAssistant } from '@/components/HelpAssistant';
+import { useAuth } from '@/contexts/AuthContext';
 import { useMedication } from '@/contexts/MedicationContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -43,8 +44,35 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const { user, loading: authLoading, logout } = useAuth();
   const { logs } = useMedication();
   const pathname = usePathname();
+
+  const publicPages = ['/login', '/registro'];
+  const isPublicPage = publicPages.includes(pathname);
+
+  if (authLoading) {
+    return (
+      <div className="flex h-dvh w-full items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!user && !isPublicPage) {
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+    return (
+      <div className="flex h-dvh w-full items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isPublicPage) {
+    return <>{children}</>;
+  }
 
   const pendingNotifications = logs.filter(
     (log) => log.status === 'pending' && new Date(log.scheduledTime) <= new Date()
@@ -136,12 +164,12 @@ export function AppLayout({ children }: AppLayoutProps) {
           <div className="mt-auto p-4 border-t border-border/10 bg-muted/20">
             <div className="flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-background/50 cursor-pointer group">
               <Avatar className="h-10 w-10 border-2 border-background shadow-sm group-hover:border-primary/20 transition-colors">
-                <AvatarImage src={`https://ui-avatars.com/api/?name=${mockUser.name}&background=random`} />
-                <AvatarFallback>{mockUser.name.charAt(0)}</AvatarFallback>
+                <AvatarImage src={`https://ui-avatars.com/api/?name=${user?.nome || 'U'}&background=random`} />
+                <AvatarFallback>{user?.nome?.charAt(0) || 'U'}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col overflow-hidden">
-                <span className="truncate text-sm font-bold text-foreground group-hover:text-primary transition-colors">{mockUser.name}</span>
-                <span className="truncate text-xs text-muted-foreground">{mockUser.email}</span>
+                <span className="truncate text-sm font-bold text-foreground group-hover:text-primary transition-colors">{user?.nome}</span>
+                <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
               </div>
             </div>
           </div>
@@ -291,7 +319,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                   className="w-full justify-start gap-2"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    // Add logout logic here
+                    logout();
                   }}
                 >
                   <LogOut className="h-4 w-4" />
