@@ -38,7 +38,7 @@ Crie um arquivo `.env` na raiz:
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/medicare_dev"
-JWT_SECRET="sua-chave-secreta-aqui"
+JWT_SECRET="cleitinmilgrau"
 ```
 
 ### 4. Rodar migrações
