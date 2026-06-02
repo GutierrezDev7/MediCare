@@ -24,7 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var p=JSON.parse(localStorage.getItem('medicare_preferences')||'{}');if(p.darkMode)document.documentElement.classList.add('dark');if(p.highContrast)document.documentElement.classList.add('high-contrast');if(p.reducedMotion)document.documentElement.classList.add('reduce-motion');if(p.fontSize)document.documentElement.style.fontSize=p.fontSize+'px';}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

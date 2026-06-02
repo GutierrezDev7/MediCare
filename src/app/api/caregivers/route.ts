@@ -21,7 +21,11 @@ export async function POST(request: NextRequest) {
     if (!payload) return unauthorizedResponse();
 
     const body = await request.json();
-    const result = await CaregiverService.addCaregiver(payload.userId, body);
+
+    const result =
+      payload.tipoPerfil === "PACIENTE"
+        ? await CaregiverService.inviteCaregiverByPatient(payload.userId, body)
+        : await CaregiverService.addCaregiver(payload.userId, body);
 
     if (result.error) {
       return NextResponse.json(

@@ -85,6 +85,10 @@ Acesse [http://localhost:3000](http://localhost:3000)
 - `POST /api/auth/register` - Cadastro
 - `POST /api/auth/login` - Login
 - `GET /api/auth/me` - Dados do usuário autenticado
+- `PUT /api/auth/profile` - Atualizar perfil
+- `PATCH /api/auth/password` - Alterar senha
+- `GET /api/auth/export` - Exportar dados do usuário
+- `DELETE /api/auth/account` - Excluir conta
 - `POST /api/auth/logout` - Logout
 
 ### Medicamentos

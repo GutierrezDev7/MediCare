@@ -1,5 +1,5 @@
 import { prisma } from "../lib/prisma";
-import { cuidadorSchema } from "../lib/validations";
+import { cuidadorSchema, inviteCaregiverSchema } from "../lib/validations";
 
 export class CaregiverService {
   static async listCaregivers(pacienteId: number) {
@@ -11,6 +11,38 @@ export class CaregiverService {
     });
 
     return { data: { caregivers }, status: 200 };
+  }
+
+  static async inviteCaregiverByPatient(pacienteId: number, body: unknown) {
+    const parsed = inviteCaregiverSchema.safeParse(body);
+    if (!parsed.success) {
+      return { error: "Dados inválidos", errors: parsed.error.flatten().fieldErrors, status: 400 };
+    }
+
+    const { cuidadorEmail, relacionamento } = parsed.data;
+
+    const cuidador = await prisma.usuario.findUnique({ where: { email: cuidadorEmail } });
+    if (!cuidador) return { error: "Cuidador não encontrado com este email", status: 404 };
+    if (cuidador.tipoPerfil !== "CUIDADOR") {
+      return { error: "Este usuário não possui perfil de cuidador", status: 400 };
+    }
+    if (cuidador.id === pacienteId) {
+      return { error: "Você não pode adicionar a si mesmo como cuidador", status: 400 };
+    }
+
+    const existing = await prisma.cuidadorPaciente.findUnique({
+      where: { pacienteId_cuidadorId: { pacienteId, cuidadorId: cuidador.id } },
+    });
+    if (existing) return { error: "Este cuidador já está vinculado", status: 400 };
+
+    const caregiver = await prisma.cuidadorPaciente.create({
+      data: { pacienteId, cuidadorId: cuidador.id, relacionamento: relacionamento || null },
+      include: {
+        cuidador: { select: { id: true, nome: true, email: true, telefone: true } },
+      },
+    });
+
+    return { data: { caregiver }, status: 201 };
   }
 
   static async addCaregiver(cuidadorId: number, body: unknown) {

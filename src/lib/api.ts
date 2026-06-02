@@ -46,6 +46,17 @@ export const api = {
     me: () => request<{ user: unknown }>("/auth/me"),
 
     logout: () => request("/auth/logout", { method: "POST" }),
+
+    updateProfile: (body: { nome: string; telefone?: string | null; dataNascimento?: string | null }) =>
+      request<{ user: unknown }>("/auth/profile", { method: "PUT", body: JSON.stringify(body) }),
+
+    changePassword: (body: { senhaAtual: string; novaSenha: string; confirmarSenha: string }) =>
+      request<{ message: string }>("/auth/password", { method: "PATCH", body: JSON.stringify(body) }),
+
+    exportData: () => request<Record<string, unknown>>("/auth/export"),
+
+    deleteAccount: (senha: string) =>
+      request<{ message: string }>("/auth/account", { method: "DELETE", body: JSON.stringify({ senha }) }),
   },
 
   medications: {
@@ -83,7 +94,7 @@ export const api = {
   caregivers: {
     list: () => request<{ caregivers: unknown[] }>("/caregivers"),
 
-    add: (body: { pacienteEmail: string; relacionamento?: string }) =>
+    add: (body: { pacienteEmail?: string; cuidadorEmail?: string; relacionamento?: string }) =>
       request("/caregivers", { method: "POST", body: JSON.stringify(body) }),
 
     remove: (id: number) =>

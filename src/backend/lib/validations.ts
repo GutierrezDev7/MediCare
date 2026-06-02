@@ -46,3 +46,23 @@ export const reportFilterSchema = z.object({
   periodoInicio: z.string().optional(),
   periodoFim: z.string().optional(),
 });
+
+export const profileUpdateSchema = z.object({
+  nome: z.string().min(2, "Nome deve ter pelo menos 2 caracteres").max(100),
+  telefone: z.string().max(15).optional().nullable(),
+  dataNascimento: z.string().optional().nullable(),
+});
+
+export const passwordChangeSchema = z.object({
+  senhaAtual: z.string().min(1, "Senha atual é obrigatória"),
+  novaSenha: z.string().min(6, "Nova senha deve ter pelo menos 6 caracteres").max(100),
+  confirmarSenha: z.string().min(1, "Confirmação é obrigatória"),
+}).refine((data) => data.novaSenha === data.confirmarSenha, {
+  message: "As senhas não coincidem",
+  path: ["confirmarSenha"],
+});
+
+export const inviteCaregiverSchema = z.object({
+  cuidadorEmail: z.string().email("Email do cuidador inválido"),
+  relacionamento: z.string().max(50).optional(),
+});
